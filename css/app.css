@@ -1,0 +1,27 @@
+@media (min-width: 660px)
+{
+	#transpage,#mainpage
+	{
+		width:660px;
+		margin:auto;
+	}
+	
+	
+	
+}
+
+.min_width{
+    min-width:280px;
+}
+.max_width{
+    max-width:340px;
+}
+
+select{
+    max-width: 60px;
+}
+
+body{
+    background: url('../img/tilebg.png') repeat-x fixed center center;
+    width:100%;
+}

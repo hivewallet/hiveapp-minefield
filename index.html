@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Minefield</title>
+    <script data-main="js/main" src="js/require.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Include Bootstrap CSS -->
+	<link href="css/app.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+
+
+    <style>
+        body {
+            margin:0;
+            padding:0;
+        }
+
+        #game-field td {
+            background: url('img/niekliknieta_ziemia.gif');
+            height: 60px;
+            width: 60px;
+        }
+    </style>
+
+    <script id="transaction-page-template" type="text/html">
+		<div id="transpage">
+			<div class="row-fluid">
+				<p class="span2">Cash: </p>
+				<p class="span10" id="user-account-amount"></p>
+			</div>
+
+			<div class="row-fluid">
+				<h2 class="span12">Deposit</h2>
+				<ul class="span12" id="deposit-list-box" ></ul>
+				<button id="generate-deposit-button" class="btn btn-default">Generate</button>
+			</div>
+
+			<div class="row-fluid">
+				<h2 class="span12">Withdrawal</h2>
+				<p>Money to withdraw: </p><input id="money-withdrawal" type="text" />
+				<p>Address: </p><input id="address-withdrawal" type="text" />
+				<p>
+				<button  id="withdrawal-button" class="btn btn-default">Withdraw</button>
+				</p>
+			</div>
+
+			<p>all your transactions need to have at least 5 confirmations in order to withdraw</p>
+			<p>if outgoing transactions are big (10btc+), they might fail, split them into multiple smaller ones.</p>
+
+			<h2>Transactions list: </h2>
+			<ul id="transaction-list-box"></ul>
+		</div>
+    </script>
+
+    <script id="main-page-template" type="text/html">
+		<div id="mainpage">
+			<div class="row-fluid">
+                <p class="span1"></p>
+				<p class="span2">Online users: </p>
+				<p class="span3" id="online-users-count"></p>
+                <p class="span2">Cash: </p>
+				<p class="span3" id="user-account-amount"></p>
+                <p class="span1"></p>
+			</div>
+
+			<!--<div class="row-fluid">
+				<p class="span2">Cash: </p>
+				<p class="span10" id="user-account-amount"></p>
+			</div>-->
+
+			<div class="row-fluid">
+                <p class="span1"></p>
+				<p class="span2">Your bet: </p>
+				<div class="span3" id="multipiers-box"></div>
+                <p class="span2">Number of mines: </p>
+				<div class="span3" id="mines-box"></div>
+                <p class="span1"></p>
+			</div>
+
+			<!--<div class="row-fluid">
+
+			</div>-->
+
+			<div id="game-field" class="row-fluid ">
+				<div class="span12">
+					<table class="table table-bordered min_width max_width" align="center">
+						<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+
+			<div class="row-fluid">
+                <p class="span1"></p>
+				<p class="span8">Your bet is multiplied by: </p>
+				<p class="span2" id="mines-multiplier-value"></p>
+                <p class="span1"></p>
+			</div>
+
+			<div class="row-fluid" align="center">
+				<button id="start-game-button">Start</button>
+				<button id="finish-game-button">Finish</button>
+			</div>
+		</div>
+    </script>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="navbar">
+                <div class="navbar-inner">
+
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+
+                    <a class="brand" href="#">Minefield</a>
+
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="#mainPage">Main</a></li>
+                            <li><a href="#transactionPage">Transactions</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="app-content"></div>
+    </div>
+</body>
+</html>
