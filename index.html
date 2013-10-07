@@ -24,6 +24,12 @@
             height: 60px;
             width: 60px;
         }
+
+        .center-table
+        {
+            margin: 0 auto !important;
+            float: none !important;
+        }
     </style>
 
     <script id="transaction-page-template" type="text/html">
@@ -59,33 +65,24 @@
     <script id="main-page-template" type="text/html">
 		<div id="mainpage">
 			<div class="row-fluid">
-                <p class="span1"></p>
+			    <p class="span1"></p>
 				<p class="span2">Online users: </p>
 				<p class="span3" id="online-users-count"></p>
-                <p class="span2">Cash: </p>
+				<p class="span2">Cash: </p>
 				<p class="span3" id="user-account-amount"></p>
-                <p class="span1"></p>
+				<p class="span1"></p>
 			</div>
 
-			<!--<div class="row-fluid">
-				<p class="span2">Cash: </p>
-				<p class="span10" id="user-account-amount"></p>
-			</div>-->
-
 			<div class="row-fluid">
-                <p class="span1"></p>
+    			<p class="span1"></p>
 				<p class="span2">Your bet: </p>
 				<div class="span3" id="multipiers-box"></div>
-                <p class="span2">Number of mines: </p>
+				<p class="span2">Number of mines: </p>
 				<div class="span3" id="mines-box"></div>
                 <p class="span1"></p>
 			</div>
 
-			<!--<div class="row-fluid">
-
-			</div>-->
-
-			<div id="game-field" class="row-fluid ">
+			<div id="game-field" class="row-fluid">
 				<div class="span12">
 					<table class="table table-bordered min_width max_width" align="center">
 						<tbody>
@@ -132,10 +129,10 @@
 			</div>
 
 			<div class="row-fluid">
-                <p class="span1"></p>
+    			<p class="span1"></p>
 				<p class="span8">Your bet is multiplied by: </p>
 				<p class="span2" id="mines-multiplier-value"></p>
-                <p class="span1"></p>
+				<p class="span1"></p>
 			</div>
 
 			<div class="row-fluid" align="center">

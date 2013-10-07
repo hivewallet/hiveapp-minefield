@@ -1,5 +1,5 @@
-define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'userAccountAmountView', 'minefieldView', 'minefield', 'minesView', 'authenticationService', 'game'],
-    function(_, ServerGateway, UserCountView, MultipierView, User, UserAccountAmountView, MinefieldView, MinefieldModel, MinesView, AuthenticationService, Game) {
+define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'userAccountAmountView', 'minefieldView', 'minefield', 'minesView', 'authenticationService', 'game', 'bootbox'],
+    function(_, ServerGateway, UserCountView, MultipierView, User, UserAccountAmountView, MinefieldView, MinefieldModel, MinesView, AuthenticationService, Game, bootbox) {
     function MainPageController() {
         this.userCountView = new UserCountView();
         this.multipierView = new MultipierView();
@@ -32,7 +32,7 @@ define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'us
             this.minesView.disableMinesSelect();
             this.multipierView.disable();
         } else {
-            alert('Your bet is greater than your cash amount. Please deposit or change your bet.');
+            this.minefieldView.showMessage('Your bet is greater than your cash amount. Please deposit or change your bet.');
         }
     }
 
@@ -44,6 +44,11 @@ define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'us
         this.minefieldView.cleanState();
         this.minefieldModel.cleanState();
         this.updateMinesMultiplier();
+        if (Game.isFinishedByUser()) {
+            this.minefieldView.showMessage("You won!");
+        } else {
+            this.minefieldView.showMessage("Sorry, you lost!");
+        }
         Game.finishByApp();
     }
 
@@ -77,15 +82,23 @@ define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'us
         }
     }
 
+    MainPageController.prototype.initViews = function() {
+        this.userCountView.update(Game.getUserCount());
+        this.userAccountAmountView.update(this.user.getAccountAmount());
+        this.multipierView.update(Game.getAvailableBets(), this.user.getAccountAmount());
+    }
+
     MainPageController.prototype.handleRequest = function() {
         var that = this;
+
         this.serverGateway = ServerGateway;
         this.authenticationService.authenticate();
 
+        this.initViews();
+
+
         this.serverGateway.registerCallback("objectsync", function(objectsyncJson) {
             var objectSync = JSON.parse(objectsyncJson);
-
-
 
             if (_.isObject(objectSync)) {
                 _.forEach(objectSync, function(value, key) {
@@ -134,11 +147,6 @@ define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'us
                     that.updateMinesMultiplier(object.multi);
 
                 } else if (_.has(object, 'done')) {
-                    if (Game.isFinishedByUser()) {
-                        that.minefieldView.showMessage("You won!");
-                    } else {
-                        that.minefieldView.showMessage("Sorry, you lost!");
-                    }
                     that.finishGameAction();
                 }
             }
@@ -149,8 +157,9 @@ define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'us
                 console.log(value);
 
                 if (_.has(value, 'cash')) {
-                    that.user.setAccountAmount(value['cash']);
-                    that.userAccountAmountView.update(value['cash']);
+                    var transformedMoney = value['cash'] / 100000000;
+                    that.user.setAccountAmount(transformedMoney);
+                    that.userAccountAmountView.update(transformedMoney);
                 }
                 if (_.has(value, 'address_deposit')) {
                     that.user.setDepositAddresses(value['address_deposit']);
@@ -165,10 +174,12 @@ define(['lodash', 'serverGateway', 'userCountView', 'multipierView', 'user', 'us
 
                 if (_.has(value, 'users')) {
                     that.userCountView.update(value['users']);
+                    Game.setUserCount(value['users']);
                 }
 
                 if (_.has(value, 'availiablebets')) {
                     that.multipierView.update(value['availiablebets'], that.user.getAccountAmount());
+                    Game.setAvailableBets(value['availiablebets'])
                 }
             }
         }

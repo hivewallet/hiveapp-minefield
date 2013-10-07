@@ -8,6 +8,24 @@ define(['lodash'], function(_) {
 
     function game() {
         this.state = STATE.NOT_STARTED;
+        this.userCount = 0;
+        this.availableBets = [0];
+    }
+
+    game.prototype.setAvailableBets = function(availableBets) {
+        this.availableBets = availableBets;
+    }
+
+    game.prototype.getAvailableBets = function() {
+        return this.availableBets;
+    }
+
+    game.prototype.setUserCount = function(userCount) {
+        this.userCount = userCount;
+    }
+
+    game.prototype.getUserCount = function() {
+        return this.userCount;
     }
 
     game.prototype.startGame = function() {

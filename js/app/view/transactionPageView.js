@@ -20,15 +20,23 @@ define(['lodash', 'jquery'], function(_, $) {
     }
 
     transactionPageView.prototype.renderTransactionsList = function(transactionList) {
-        generateListAsHtml(transactionList, '#transaction-list-box');
+        generateListAsHtml(transactionList, '#transaction-list-box', function(object) {
+            return object.address + ", " + object.category + ", " + (object.amount / 100000000);
+        });
+
     }
 
-    function generateListAsHtml(list, element) {
+    function generateListAsHtml(list, element, render) {
         if (_.isArray(list)) {
             $(element).html('');
             _.each(list, function(value) {
                 var li = $('<li>');
-                li.html(value);
+                if (_.isFunction(render)) {
+                    li.html(render(value));
+                } else {
+                    li.html(value);
+                }
+
                 $(element).append(li);
             });
         }

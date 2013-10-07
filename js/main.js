@@ -1,5 +1,7 @@
 require.config({
     paths: {
+        'bootstrap': 'lib/bootstrap.min',
+        'bootbox': 'lib/bootbox.min',
         'jquery': 'lib/jquery',
         'socket': 'lib/socket.io',
         'lodash': 'lib/lodash.min',

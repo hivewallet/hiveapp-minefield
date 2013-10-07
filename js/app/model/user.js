@@ -1,6 +1,7 @@
 define(['lodash'], function(_) {
     function user() {
         this.depositAddresses = [];
+        this.accountAmount = 0;
     }
 
     user.prototype.setDepositAddresses = function(depositAddresses) {

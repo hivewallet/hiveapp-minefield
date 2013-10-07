@@ -11,9 +11,9 @@ define(['serverGateway', 'lodash', 'user', 'transactionPageView', 'userAccountAm
             console.log("Got answer: ");
             console.log(answer);
 
-            if (_.isObject(answer) && _.has(answer, 'args') && _.has(answer.args, 'answerid')) {
-                if(answer.args.answerid.indexOf('listTransactions') > -1) {
-                    that.transactionPageView.renderTransactionsList(answer.args.data);
+            if (_.isObject(answer) && _.has(answer, 'answerid')) {
+                if(answer.answerid.indexOf('listTransactions') > -1) {
+                    that.transactionPageView.renderTransactionsList(JSON.parse(answer.data));
                 }
             }
         });
@@ -64,8 +64,9 @@ define(['serverGateway', 'lodash', 'user', 'transactionPageView', 'userAccountAm
             }
 
             if (_.has(object, 'cash')) {
-                that.user.setAccountAmount(object['cash']);
-                that.userAccountAmountView.update(object['cash']);
+                var transformedMoney = object['cash'] / 100000000
+                User.setAccountAmount(transformedMoney);
+                that.userAccountAmountView.update(transformedMoney);
             }
         }
 
