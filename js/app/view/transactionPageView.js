@@ -3,6 +3,11 @@ define(['lodash', 'jquery'], function(_, $) {
     function transactionPageView(controller) {
         this.controller = controller;
 
+        var updateWithdrawalCallback = function(data){
+            $('#address-withdrawal').val(data.address);
+        }
+        bitcoin.getUserInfo(updateWithdrawalCallback);
+
         $('#generate-deposit-button').bind('click', function() {
             controller.generateDepositAddress();
         });

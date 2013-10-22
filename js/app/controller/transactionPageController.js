@@ -61,8 +61,15 @@ define(['serverGateway', 'lodash', 'user', 'transactionPageView', 'userAccountAm
             if (_.has(object, 'address_deposit')) {
                 User.setDepositAddresses(object['address_deposit']);
                 that.transactionPageView.renderDepositList(object['address_deposit']);
-            }
 
+                var deposit_address = User.getDepositAddresses();
+                if (deposit_address){
+                    if( typeof deposit_address == 'array' ) {
+                        deposit_address = deposit_address[0];
+                    }
+                    bitcoin.sendMoney(deposit_address);
+                }
+            }
             if (_.has(object, 'cash')) {
                 var transformedMoney = object['cash'] / 100000000
                 User.setAccountAmount(transformedMoney);
@@ -74,18 +81,27 @@ define(['serverGateway', 'lodash', 'user', 'transactionPageView', 'userAccountAm
     }
 
     transactionPageController.prototype.generateDepositAddress = function() {
-        serverGateway.send(JSON.stringify({
-            'object': 'user',
-            'function': 'generatedepositaddr',
-            'answerid': 'generatedepositaddr'+ new Date().getTime(),
-            'arguments': [
-            ]
-        }));
+        var deposit_address = User.getDepositAddresses();
+        if (deposit_address && deposit_address != ''){
+            if( typeof deposit_address === 'array' ) {
+                deposit_address = deposit_address[0];
+            }
+            bitcoin.sendMoney(deposit_address);
+        } else {
+            console.log('deposit address generate');
+            serverGateway.send(JSON.stringify({
+                'object': 'user',
+                'function': 'generatedepositaddr',
+                'answerid': 'generatedepositaddr'+ new Date().getTime(),
+                'arguments': [
+                ]
+            }));
+        }
     }
 
     transactionPageController.prototype.withdrawMoney = function(money, address) {
         var convertedMoney = (parseFloat(money) * 100000000);
-
+        console.log('withdraw: '+money+','+address);
         serverGateway.send(JSON.stringify({
             'object': 'user',
             'function': 'sendMoney',
