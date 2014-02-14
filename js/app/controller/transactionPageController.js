@@ -64,7 +64,7 @@ define(['serverGateway', 'lodash', 'user', 'transactionPageView', 'userAccountAm
 
                 var deposit_address = User.getDepositAddresses();
                 if (deposit_address){
-                    if( typeof deposit_address == 'array' ) {
+                    if(Array.isArray(deposit_address)) {
                         deposit_address = deposit_address[0];
                     }
                     bitcoin.sendMoney(deposit_address);
@@ -83,7 +83,7 @@ define(['serverGateway', 'lodash', 'user', 'transactionPageView', 'userAccountAm
     transactionPageController.prototype.generateDepositAddress = function() {
         var deposit_address = User.getDepositAddresses();
         if (deposit_address && deposit_address != ''){
-            if( typeof deposit_address === 'array' ) {
+            if(Array.isArray(deposit_address)) {
                 deposit_address = deposit_address[0];
             }
             bitcoin.sendMoney(deposit_address);
