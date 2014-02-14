@@ -1,27 +1,31 @@
 @media (min-width: 660px)
 {
-	#transpage,#mainpage
-	{
-		width:660px;
-		margin:auto;
-	}
-	
-	
-	
+  #transpage,#mainpage
+  {
+    width:660px;
+    margin:auto;
+  }
+
+
+
 }
 
 .min_width{
-    min-width:280px;
+  min-width:280px;
 }
 .max_width{
-    max-width:340px;
+  max-width:340px;
 }
 
 select{
-    max-width: 60px;
+  max-width: 60px;
 }
 
 body{
-    background: url('../img/tilebg.png') repeat-x fixed center center;
-    width:100%;
+  background: url('../img/tilebg.png') repeat-x fixed center center;
+  width:100%;
+}
+
+#deposit-list-box li {
+  cursor: pointer;
 }

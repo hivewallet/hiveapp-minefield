@@ -12,6 +12,10 @@ define(['lodash', 'jquery'], function(_, $) {
             controller.generateDepositAddress();
         });
 
+        $('#deposit-list-box').on('click', 'li',  function(e) {
+          bitcoin.sendMoney(this.textContent)
+        });
+
         $('#withdrawal-button').bind('click', function() {
             var money = $('#money-withdrawal').val();
             var address = $('#address-withdrawal').val();
