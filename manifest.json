@@ -1,7 +1,7 @@
 {
   "name": "Minefield",
   "id": "com.hivewallet.minefield",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Hive",
   "description": "Minefield betting game",
   "icon": "minefield-icon.png"
